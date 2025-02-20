@@ -45,17 +45,18 @@ form button {
 .weather-item {
     margin-top: 30px;
     padding: 20px;
-    width: 700px;
+    max-width: 1000px;
     border: 2px solid #41337a;
     border-radius: 5px;
     color: #41337a;
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 3fr 1fr;
 }
 
 .closeBtn {
     all: unset;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .temperature {
@@ -74,8 +75,9 @@ form button {
 
 .data {
     align-self: center;
-    display: flex;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
 }
 
 .data div {
