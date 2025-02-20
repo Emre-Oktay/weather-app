@@ -20,8 +20,6 @@ async function getWeatherData(location) {
     );
     const weatherData = await response.json();
 
-    console.log(weatherData);
-
     const address = weatherData.resolvedAddress;
     const temp = weatherData.currentConditions.temp;
     const humidity = weatherData.currentConditions.humidity;
@@ -30,7 +28,14 @@ async function getWeatherData(location) {
     const conditions = weatherData.currentConditions.conditions;
     const description = weatherData.description;
 
-    return [address, temp, humidity, windSpeed, icon, conditions, description];
+    const nextDays = [];
+    const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    for (let day of weatherData.days.slice(0, 7)) {
+        const d = new Date(day.datetime);
+        nextDays.push({ icon: day.icon, temp: day.temp, date: weekday[d.getDay()] });
+    }
+
+    return [address, temp, humidity, windSpeed, icon, conditions, description, nextDays];
 }
 
 const form = document.querySelector('form');
@@ -43,9 +48,9 @@ form.addEventListener('submit', (event) => {
     input.value = '';
 });
 
-function displayWeather([address, temp, humidity, windSpeed, icon, conditions, description]) {
+function displayWeather([address, temp, humidity, windSpeed, icon, conditions, description, nextDays]) {
     const weatherDiv = document.createElement('div');
-    weatherDiv.classList.add('weather-item');
+    weatherDiv.classList.add('weather-card');
 
     const titleDiv = document.createElement('h2');
 
@@ -120,6 +125,27 @@ function displayWeather([address, temp, humidity, windSpeed, icon, conditions, d
     dataDiv.appendChild(windDiv);
 
     weatherDiv.appendChild(dataDiv);
+
+    const nextDiv = document.createElement('div');
+    nextDiv.classList.add('next-day-list');
+
+    for (let day of nextDays) {
+        const div = document.createElement('div');
+        div.classList.add('next-day');
+        const icon = document.createElement('img');
+        icon.src = handleIcon(day.icon);
+        icon.height = 24;
+        const span = document.createElement('span');
+        span.textContent = `${day.temp}°`;
+        const span2 = document.createElement('span');
+        span2.textContent = day.date;
+        div.appendChild(icon);
+        div.appendChild(span);
+        div.appendChild(span2);
+        nextDiv.appendChild(div);
+    }
+
+    weatherDiv.appendChild(nextDiv);
 
     weatherList.appendChild(weatherDiv);
 }
