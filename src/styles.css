@@ -10,9 +10,18 @@ body {
     background-color: #6ea4bf;
 }
 
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #41337a;
+    box-shadow: 2px 2px 2px #41337a33;
+}
+
 .heading {
     text-align: center;
-    margin: 30px;
+    margin: 10px 30px;
     color: #41337a;
 }
 
@@ -35,6 +44,53 @@ body {
     outline: 2px solid #331e36;
 }
 
+.unit-switch {
+    margin: 10px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #41337a;
+}
+
+.unit-switch span {
+    width: 80px;
+}
+
+input.switch {
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    width: 50px;
+    height: 30px;
+    border-radius: 25px;
+    outline: none;
+    background-color: #b8d3e0;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: background 0.3s;
+}
+
+input::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    height: 1.25rem;
+    width: 1.25rem;
+    background-color: #586c9d;
+    transition: left 0.3s;
+}
+
+input:checked {
+    background-color: #1f183a;
+}
+
+input:checked::after {
+    left: 70%;
+}
+
 form button {
     all: unset;
     display: flex;
@@ -42,10 +98,16 @@ form button {
     cursor: pointer;
 }
 
+.weather-list {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 .weather-card {
     margin-top: 30px;
     padding: 20px;
-    max-width: 1000px;
+    min-width: 640px;
+    max-width: 1020px;
     border: 2px solid #41337a;
     border-radius: 5px;
     color: #41337a;
@@ -98,7 +160,7 @@ form button {
 }
 
 .next-day:first-child {
-    background-color: #6c9dbb;
+    background-color: #83b7ca;
     border-color: #586c9d;
 }
 

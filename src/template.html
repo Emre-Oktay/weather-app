@@ -6,14 +6,19 @@
         <title>Weather App</title>
     </head>
     <body>
-        <div>
+        <header class="header">
             <h1 class="heading">Weather App</h1>
 
             <form action="" class="search">
                 <input class="search-field" type="text" />
                 <button><img src="assets/search.svg" alt="" /></button>
             </form>
-        </div>
+
+            <div class="unit-switch">
+                <input type="checkbox" class="switch" />
+                <span id="unit">Celsius</span>
+            </div>
+        </header>
         <div class="weather-list"></div>
     </body>
 </html>
