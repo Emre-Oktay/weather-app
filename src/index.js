@@ -15,6 +15,7 @@ const Icon = {
     snow: CLOUD_SNOW,
     rain: CLOUD_RAIN,
     fog: CLOUD_FOG,
+    humidity: HUMIDITY,
     wind: WIND,
     cloudy: CLOUDY,
     'partly-cloudy-day': CLOUD_SUN,
@@ -28,6 +29,7 @@ const input = document.querySelector('input');
 const unitSwitch = document.querySelector('input.switch');
 const unitSpan = document.querySelector('#unit');
 const weatherList = document.querySelector('.weather-list');
+const alertList = document.querySelector('.alert-list');
 
 const weatherData = {
     locations: [],
@@ -38,6 +40,7 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     getWeatherData(input.value).then((result) => {
         if (result == -1) {
+            displayAlert('The location is already being displayed');
             console.log('The location is already being displayed');
         } else if (result !== null) {
             displayWeather(result);
@@ -73,6 +76,11 @@ async function getWeatherData(location) {
                 mode: 'cors',
             }
         );
+
+        if (!response.ok) {
+            throw new Error(`Error fetching data ${response.statusText}`);
+        }
+
         const apiData = await response.json();
 
         const nextDays = [];
@@ -111,6 +119,7 @@ async function getWeatherData(location) {
         return locationData;
     } catch (error) {
         console.error('Error fetching weather data:', error);
+        displayAlert(`Error fetching weather data: ${error}`);
         return null;
     }
 }
@@ -122,7 +131,7 @@ function displayWeather(locationData) {
     const titleDiv = document.createElement('h2');
 
     const closeBtn = document.createElement('button');
-    closeBtn.classList.add('closeBtn');
+    closeBtn.classList.add('close-button');
     closeBtn.textContent = '✖';
     closeBtn.setAttribute('aria-label', `Remove ${locationData.address} weather card`);
     closeBtn.addEventListener('click', () => {
@@ -174,7 +183,7 @@ function displayWeather(locationData) {
     const humidityDiv = document.createElement('div');
 
     const humidityImg = document.createElement('img');
-    humidityImg.src = HUMIDITY;
+    humidityImg.src = Icon['humidity'];
     humidityImg.height = 24;
     const humiditySpan = document.createElement('span');
     humiditySpan.textContent = `${locationData.humidity}%`;
@@ -185,7 +194,7 @@ function displayWeather(locationData) {
     const windDiv = document.createElement('div');
 
     const windImg = document.createElement('img');
-    windImg.src = WIND;
+    windImg.src = Icon['wind'];
     windImg.height = 24;
     const windSpan = document.createElement('span');
     windSpan.textContent = `${locationData.windSpeed} km/h`;
@@ -208,8 +217,7 @@ function displayWeather(locationData) {
         icon.src = Icon[day.icon];
         icon.height = 24;
         const span = document.createElement('span');
-        span.textContent = span.textContent =
-            weatherData.displayUnit === 'celsius' ? `${day.temp.celsius}°C` : `${day.temp.fahrenheit}°F`;
+        span.textContent = weatherData.displayUnit === 'celsius' ? `${day.temp.celsius}°C` : `${day.temp.fahrenheit}°F`;
         const span2 = document.createElement('span');
         span2.textContent = day.date;
         div.appendChild(icon);
@@ -221,6 +229,31 @@ function displayWeather(locationData) {
     weatherDiv.appendChild(nextDiv);
 
     weatherList.appendChild(weatherDiv);
+}
+
+function displayAlert(message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert');
+
+    const alertSpan = document.createElement('span');
+    alertSpan.textContent = message;
+
+    const alertCloseButton = document.createElement('button');
+    alertCloseButton.classList.add('alert-close-button');
+    alertCloseButton.textContent = '✖';
+
+    alertCloseButton.addEventListener('click', () => {
+        alertDiv.remove();
+    });
+
+    setTimeout(function () {
+        alertDiv.remove();
+    }, 5000);
+
+    alertDiv.appendChild(alertSpan);
+    alertDiv.appendChild(alertCloseButton);
+
+    alertList.appendChild(alertDiv);
 }
 
 function populateList() {

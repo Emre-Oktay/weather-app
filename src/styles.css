@@ -115,7 +115,7 @@ form button {
     grid-template-columns: 3fr 1fr;
 }
 
-.closeBtn {
+.close-button {
     all: unset;
     cursor: pointer;
     margin-right: 10px;
@@ -174,4 +174,30 @@ form button {
     justify-content: center;
     align-items: center;
     gap: 5px;
+}
+
+.alert-list {
+    width: 100%;
+    max-width: 1000px;
+    min-width: 640px;
+    display: flex;
+    flex-direction: column;
+}
+
+.alert {
+    width: 100%;
+    margin: 10px 0px;
+    padding: 5px 10px;
+    color: #4d508c;
+    background-color: #98cad5;
+    border: 1px solid #4d508c;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.alert-close-button {
+    all: unset;
+    cursor: pointer;
+    margin-left: 10px;
 }
